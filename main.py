@@ -6,6 +6,8 @@ import config
 
 import pygame
 from pygame.locals import *
+
+from button import Button
 from cell import Cell
 
 from grid import gen_grid, gen_grid_sprites, update_grid
@@ -53,6 +55,10 @@ background_grid = pygame.sprite.Sprite()
 background_grid.surf = pygame.Surface((grid_width+4, grid_width+4))
 background_grid.surf.fill((128, 128, 128))
 background_grid.rect = background_grid.surf.get_rect(center = (global_center[0] - 1, global_center[1] - 1))
+
+button = Button((1250, 1000), (100, 50), "SUCK DEEZ")
+button_group = pygame.sprite.Group()
+button_group.add(button)
 
 
 def quit():
@@ -107,6 +113,9 @@ while True:
 
     for entity in rect_group:
         draw(entity)
+
+    for entity in button_group:
+        entity.draw(screen)
 
     pygame.display.update()
     clock.tick(FPS)

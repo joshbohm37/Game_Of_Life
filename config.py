@@ -6,7 +6,7 @@ screen_w = user32.GetSystemMetrics(78)
 screen_h = user32.GetSystemMetrics(79)
 
 #Grid parameters static
-grid_size = 50
+grid_size = 100
 grid_padding = 1
 
 # Grid parameters to be initialized on load
