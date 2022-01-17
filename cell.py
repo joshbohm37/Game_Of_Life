@@ -17,4 +17,3 @@ class Cell(pygame.sprite.Sprite):
         if self.rect.collidepoint(mouse_pos):
             return True
 
-#This is another test
