@@ -56,7 +56,7 @@ background_grid.surf = pygame.Surface((grid_width+4, grid_width+4))
 background_grid.surf.fill((128, 128, 128))
 background_grid.rect = background_grid.surf.get_rect(center = (global_center[0] - 1, global_center[1] - 1))
 
-button = Button((1250, 1000), (100, 50), "SUCK DEEZ")
+button = Button(((3 * screen_w)/4, screen_h/4), (200, 100), "Pause")
 button_group = pygame.sprite.Group()
 button_group.add(button)
 
@@ -69,11 +69,18 @@ def quit():
 def draw(entity):
     screen.blit(entity.surf, entity.rect)
 
+def reset():
+    for row in range(grid_size):
+        for col in range(grid_size):
+            starting_grid[row][col] = 0
+
 
 while True:
     screen.fill((0, 0, 0))
     if SHOW_GRID:
         draw(background_grid)
+
+
 
 
     for event in pygame.event.get():
@@ -87,6 +94,11 @@ while True:
 
             if event.key == pygame.K_g:
                 SHOW_GRID = not SHOW_GRID
+
+            if event.key == pygame.K_r:
+                reset()
+                starting_grid = update_grid(starting_grid)
+                gen_grid_sprites(grid_size, starting_grid, rect_group)
         if not PAUSE:
             if event.type == new_generation:
                 for entity in rect_group:
@@ -110,6 +122,14 @@ while True:
                         elif starting_grid[cellrow][cellcol] == 0:
                             entity.surf.fill((255,255,255))
                             starting_grid[cellrow][cellcol] = 1
+            for entity in button_group:
+                if entity.check_click(event.pos):
+                    PAUSE = not PAUSE
+                    entity.surf.fill((100, 100, 125))
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            for entity in button_group:
+                entity.surf.fill((128, 128, 128))
 
     for entity in rect_group:
         draw(entity)
